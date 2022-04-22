@@ -1,3 +1,4 @@
+##
 #fare la somma di una lista
 
 a=[-1,1,2,3,4,5]
@@ -6,7 +7,7 @@ a=[-1,1,2,3,4,5]
 somma=0
 #for con accesso tramite indice
 for i in range(len(a)): #mettiamo range(len(a)) perchè solamente len(a) è un interno e non è  iterabile
-    #print(i," ",a[i])
+    #print(i," ",a[i]) #printiamo il valore di i, uno spazio " " e gli indici della lista
     somma+=a[i]
 print("la somma della lista è:",somma)
 
@@ -19,6 +20,7 @@ print("la somma della lista è:",somma)
 
 #la 2nd versione ha lo svantaggio di non poter accedere in modo indicizzato nella lista
 #item contiene il valore e non l'indice, se voglio accedere in modo puntutale e magari variado l'indice a seguito di qualche condizione è preferibile la 1st versione
+#esempio
 
 somma=0
 for i in range(len(a)): 
