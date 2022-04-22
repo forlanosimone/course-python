@@ -11,3 +11,5 @@ for i in range(n_righe):
     tabella.append([0] * n_colonne)
 
 print("La tabella è formata da" + str(len(tabella)) + "righe", "e da", len(tabella[0]), "colonne")
+
+print("ciao")
