@@ -10,6 +10,4 @@ tabella = [] # andiamo ad inizializzare una lista vuota
 for i in range(n_righe):
     tabella.append([0] * n_colonne)
 
-print("La tabella è formata da" + str(len(tabella)) + "righe", "e da", len(tabella[0]), "colonne")
-
-print("ciao")
+print("La tabella è formata da " + str(len(tabella)) + " righe" + "e da " + str(len(tabella[0])) + " colonne")
