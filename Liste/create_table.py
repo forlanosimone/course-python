@@ -19,4 +19,5 @@ for i in range(n_righe):
 
 print("La tabella è formata da " + str(len(tabella)) + " righe" + "e da " + str(len(tabella[0])) + " colonne")
 
-print_2d_list(tabella)
+print(tabella)              # non va bene, scrive anche le parentesi
+print_2d_list(tabella)      # scriviamo la tabella con la funzione definita
