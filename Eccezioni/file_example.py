@@ -7,14 +7,14 @@ riga = str(file.readline())
 print(riga)
 
 # itero su riga_splitted per printare
-riga_splitted = riga.split(";") # splitto la linea con il separatore (;) se il separatore era il tab dovevamo inserire (("\t"))
+riga_splitted = riga.split(";") # splitto la linea con il separatore (;) se il separatore era il tab ("\t") (carattere di tabulazione) splitto in una lista che contiene le 3
 for item in riga_splitted:
     print(item)
 
 # la prima riga è di intestazione
 # posso fare direttamente il cast a float in una linea ma se la linea non è separata in elementi non va bene, bisogna separare gli elementi
 riga = str(file.readline())
-while(riga != ""):
+while(riga != ""): # fino a quando la riga è diversa dalla stringa vuota
     riga = str(file.readline())
     riga_splitted = riga.split(";")
     print(len(riga_splitted))
