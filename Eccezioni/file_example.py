@@ -18,6 +18,10 @@ while(riga != ""): # fino a quando la riga è diversa dalla stringa vuota
     riga = str(file.readline())
     riga_splitted = riga.split(";")
     print(len(riga_splitted))
+    # per verificare se lo split mi ha restituito il numero di elementi corretto devo verificare che la lunghezza della lista che è stata ritornata dallo split corrisponde al numero di colonne
+    if(riga_splitted == 1):
+        print("formato corretto...")
+        # lo split deve ritornare sempre il numero di colonne che mi aspetto
 
 # operazione di chiusura
 file.close()
