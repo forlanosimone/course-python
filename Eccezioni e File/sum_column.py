@@ -15,7 +15,7 @@ lista_somma = [0] * N # inizializzo la lista a zero e poi la moltiplico per N
 while(riga != ""): # fino a quando la riga è diversa dalla stringa vuota
     riga = str(file.readline())
     riga_splitted = riga.split("\t") # la funzine split ci ritorna una stringa
-    if(len(riga_splitted) == N): # se la lunghezza di quello che ho separato è pari ad N
+    if(len(riga_splitted) == N): # se la lunghezza di quello che ho separato è pari ad N continuo altrimenti ignoro, ci potrebbero essere righe corrotte
         for i in range(N):
             lista_somma[i] += float(riga_splitted[i]) # faccio il cast da stringa a float e partendo da i=0 sommo il valore
 print("lista somma")

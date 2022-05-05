@@ -55,17 +55,23 @@ def metodoNewtonRaphson(a, b, epsilon, N_ITER_MAX):
 #argv[4] --> n_iter
 
 if (len(sys.argv) == 5):
-    a = float(sys.argv[1])
-    b = float(sys.argv[2])
-    epsilon = float(sys.argv[3])
-    n_iter = int(sys.argv[4])
-    #GECCEZIONI
-    if (epsilon <= 0):
-        raise ValueError("Il valore di epsilon deve essere maggiore di zero")
-    if (n_iter <= 0):
-        raise ValueError("Il valore di n_iter deve essere maggiore di zero")
-    metodoNewtonRaphson(a, b, epsilon, n_iter)
+    try:
+        a = float(sys.argv[1])
+        b = float(sys.argv[2])
+        epsilon = float(sys.argv[3])
+        n_iter = int(sys.argv[4])
+        #ECCEZIONI
+        if (epsilon <= 0):
+            raise ValueError("Il valore di epsilon deve essere maggiore di zero")
+        if (n_iter <= 0):
+            raise ValueError("Il valore di n_iter deve essere maggiore di zero")
+        metodoNewtonRaphson(a, b, epsilon, n_iter)
+    except ValueError as err:
+        print("eccezione di tipo value error...", str(err))
+    except Exception as err:
+        print("eccezione generica...", str(err)) 
 else:
     print("Parametri non validi")
+    print("Si usa facendo: metodoNewtonRaphson.py a b epsilon N_ITER_MAX")
 
 
