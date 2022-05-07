@@ -60,6 +60,7 @@ if (len(sys.argv) == 5):
         b = float(sys.argv[2])
         epsilon = float(sys.argv[3])
         n_iter = int(sys.argv[4])
+        
         #ECCEZIONI
         if (epsilon <= 0):
             raise ValueError("Il valore di epsilon deve essere maggiore di zero")
