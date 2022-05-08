@@ -38,3 +38,20 @@ print(a.dtype) # Andiamo a controllare il tipo
 
 # NumPy può gestire anche i numeri complessi
 
+a = np.ones((3,3))
+print(a)
+
+print(a.ndim) # Consente di vedere il numero delle dimensioni
+print(a.shape) # Vediamo la dimensione dell'array
+print(a.dtype) # Vediamo il tipo
+
+a = np.arange(5) # Restituisce un array (vettore) con 5 elementi 
+print(a)
+
+a =np.arange(1,5) # Qui inserisco start, stop
+print(a)
+
+len(a) # Ci restituisce la lunghezza di a
+
+a = np.arange(0,5,0.1) # Qui ho inserito start, stop, step
+print(a)
