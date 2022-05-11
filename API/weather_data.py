@@ -7,16 +7,16 @@
 # L'XML è un linguaggio marcato simile all'HTML
 # Per visalizzare meglio i JSON possiamo utilizzare JSONLint (sito)
 
-import requests # Ci permettere di chiedere al server
 import json
+import requests # Ci permettere di chiedere al server
 
-url = "https://api.openweathermap.org/data/2.5/weather?appid=fad12c2ca3c5d8596156d99d41ccfe0a&q=Guardiagrele,IT"
+URL = "https://api.openweathermap.org/data/2.5/weather?appid=fad12c2ca3c5d8596156d99d41ccfe0a&q=Guardiagrele,IT"
 # Nell'url se al posto di weather mettiamo forecast avremo le previsioni
 
 payload = {}
 headers = {}
 
-response = requests.request("GET", url, headers=headers, data=payload)
+response = requests.request("GET", URL, headers=headers, data=payload)
 
 print(response.text)
 
@@ -24,4 +24,3 @@ decoded =  json.loads(response.text) # Deserializza una stringa in un python obj
 
 print("decoded text")
 print(decoded)
-
