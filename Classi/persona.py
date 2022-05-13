@@ -28,6 +28,9 @@ class persona:
             return (self.cognome + "|" + self.nome)     # Se voglio ritornare cognome | nome con una funzione
         else:
             return (self.nome + "|" + self.cognome)     # Se reverse = true
+    # Overloading, quando uso == richiamo la funzione __eq__
+    def __eq__(self, rhsValue): # Se (self, me stesso._id) è uguale all'altro terimne di paragone._id ritorna True
+        return(self._id == rhsValue._id)
 
 # Abbiamo create dei metodi che possono essere usati esternamente con la classe persona
 
