@@ -26,4 +26,4 @@ if __name__ == '__main__':
     unittest.main()
 
 # Il test funziona e plotta OK perché non posso calcolare il CF senza avere gli attributi
-# Mentre se testo persona_full_data 
+# Mentre se testo persona_full_data confronto se il CF calcolato sia uguale a quello di test
