@@ -7,15 +7,15 @@ import cv2
 import matplotlib.pyplot as plt # Importiamo la funzionalità per fare il plot
 
 # Immagine a colori
-img = cv2.imread ("./Image/s1.png")
+img = cv2.imread (".\\Elaborazione immagini\\Image\\s1.png")
 print
 print(img.shape)
 
 # Immagine in scala di grigi
-img_g = cv2.imread("./Image/s1_g.png")
+img_g = cv2.imread(".\\Elaborazione immagini\\Image\\s1_g.png")
 print(img_g.shape) # OpenCV converte anche l'immagine a scala di grigi in un immagine a 3 canali
 # Se vogliamo evitare questo dobbiamo utilizzare IMREAD_GRAYSCALE
-img_g = cv2.imread("./Image/s1_g.png", cv2.IMREAD_GRAYSCALE)
+img_g = cv2.imread(".\\Elaborazione immagini\\Image\\s1_g.png", cv2.IMREAD_GRAYSCALE)
 print(img_g.shape)
 
 # OpenCV carica l'immagine in formato BGR mentre MathPlotLib in RGB

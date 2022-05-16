@@ -5,8 +5,9 @@ import requests # Ci permettere di chiedere al server
 import json
 import numpy as np
 import matplotlib.pyplot as plt
+from secret import key
 
-url = "https://api.openweathermap.org/data/2.5/forecast?appid=fad12c2ca3c5d8596156d99d41ccfe0a&q=Guardiagrele,IT"
+url = "https://api.openweathermap.org/data/2.5/forecast?appid=" + key + "=Guardiagrele,IT"
 # Nell'url se al posto di weather mettiamo weather avremo il meteo in tempo reale
 
 payload = {}

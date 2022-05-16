@@ -9,8 +9,9 @@
 
 import json
 import requests # Ci permettere di chiedere al server
+from secret import key
 
-URL = "https://api.openweathermap.org/data/2.5/weather?appid=fad12c2ca3c5d8596156d99d41ccfe0a&q=Guardiagrele,IT"
+URL = "https://api.openweathermap.org/data/2.5/weather?appid=" + key + "=Guardiagrele,IT"
 # Nell'url se al posto di weather mettiamo forecast avremo le previsioni
 
 payload = {}
