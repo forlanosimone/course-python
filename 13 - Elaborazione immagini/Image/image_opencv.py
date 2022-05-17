@@ -5,7 +5,7 @@
 import cv2
 import numpy as np
 
-img = cv2.imread(".\\Elaborazione immagini\\Image\\s1.png")
+img = cv2.imread(".\\13 - Elaborazione immagini\\Image\\s1.png")
 print("Tipo:", img.dtype,"Canali:", img.ndim,"Dimensione:", img.shape)
 
 # La matrice è leggibile e scrivibile

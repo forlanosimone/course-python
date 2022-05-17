@@ -1,25 +1,24 @@
-#voglio stampare i primi 10 numeri partendo da zero
-#utilizzando la varibile flag (variabile che può assumere True o False) 
-#prima faccio la valutazione e poi incremento
+##
+# Voglio stampare i primi 10 numeri partendo da zero
+# Utilizzando la varibile flag (variabile che può assumere True o False) 
+# Prima faccio la valutazione e poi incremento
 
-a=0
-condizione=True #variabile flag
+a = 0
+condizione = True # Variabile flag
 while(condizione):
-    if(a>=10): #valutazione
-        condizione=False
+    if(a >= 10): # Valutazione
+        condizione = False
     print(a)
-    a=a+1 #incremento
+    a = a + 1 # Incremento
 
-###############################################################################################
-print("########")
-###############################################################################################
-#prima vado ad incrementare e poi vado a valutare (posso ottenere lo stesso risulato modificando >= nell'if)
-
-a=0
-condizione=True
+# Prima vado ad incrementare e poi vado a valutare
+# Posso ottenere lo stesso risulato modificando >= nell'if
+a = 0
+condizione = True
 while(condizione):
-    a=a+1 #incremento
+    a = a + 1 # Incremento
     #print(a)
-    if(a>=10): #valutazione
+    if(a >= 10): # Valutazione
         condizione=False
     print(a)
+    

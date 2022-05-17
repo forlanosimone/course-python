@@ -8,6 +8,7 @@ import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import DBSCAN
+from sklearn.datasets import make_blobs
 
 # Apro il file
 try:
@@ -99,9 +100,4 @@ print(P)
 #yN, xN]
 
 # Algoritmo DBSCAN
-X = np.array([[1, 2], [2, 2], [2, 3],
-              [8, 7], [8, 8], [25, 80]])
-clustering = DBSCAN(eps=3, min_samples=2).fit(P)
-clustering.labels_
-
-clustering
+db = DBSCAN(eps=3, min_samples=2).fit(P)

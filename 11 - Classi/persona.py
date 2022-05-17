@@ -1,5 +1,6 @@
 ##
 # Andiamo a costruire la classe persona
+
 from codicefiscale import codicefiscale
 
 class persona:
@@ -7,7 +8,7 @@ class persona:
     def __init__(self, nome = "", cognome = "?", data_nascita = "?", sesso = "?", luogo_nascita= "?"):      # Definisco il costruttore e alcuni attributi default
         persona._id += 1 # Viene incrementato ogni volta che creo un oggetto
         self._id = "S" + str(persona._id) # Matricolo con S
-        self.nome = nome                                 # Variabili di instanza
+        self.nome = nome                  # Variabili di istanza
         self.cognome = cognome
         self.data_nascita = data_nascita
         self.sesso = sesso

@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt # Importiamo la funzionalità per fare il plot
 
 # Immagine a colori
 img = cv2.imread(".\\13 - Elaborazione immagini\\Image\\s1.png")
-print
+print(img.ndim)
 print(img.shape)
 
 # Immagine in scala di grigi

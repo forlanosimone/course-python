@@ -1,5 +1,5 @@
 ##
-# moltiplichiamo l'array per uno scalare con una funzione
+# Moltiplichiamo l'array per uno scalare con una funzione
 
 def multiply_list_by_scalar(list_data, value):
     for i in range(len(list_data)):

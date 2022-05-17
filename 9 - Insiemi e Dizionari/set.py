@@ -1,5 +1,5 @@
 ##
-# Verificare ai quali bandiere appartengono i colori delle bandiere con gli insiemi
+# Verificare a quali bandiere appartengono i colori delle bandiere con gli insiemi
 
 canadian = {"R","W"}
 british = {"R","B","W"}
@@ -10,4 +10,3 @@ if canadian.issubset(british):
 
 if not italian.issubset(british):
     print("Almeno un colore della bandiera dell'Italia non appartiene ai colori della bandiera del Regno Unito")
-

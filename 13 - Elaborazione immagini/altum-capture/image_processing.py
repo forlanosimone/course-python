@@ -1,4 +1,4 @@
-##
+## BOZZA, da completare e migliorare
 # Per ogni ROI calcolare Min,Max,Media e Deviazione Standard e salvarle in un file di testo
 # Descrizione del dato: https://micasense.com/sample-data-altum/ 
 
@@ -9,14 +9,11 @@ import cv2
 import matplotlib.image as mpimg
 
 # Leggo le immagine
-img_1 = tiff.imread(".\\Elaborazione immagini\\altum-capture\\IMG_0220_1.tif")
-img_cv = cv2.imread(".\\Elaborazione immagini\\altum-capture\\IMG_0220_1.tif")
-img_mtp = mpimg.imread(".\\Elaborazione immagini\\altum-capture\\IMG_0220_1.tif")
-
-img_2 = tiff.imread(".\\Elaborazione immagini\\altum-capture\\IMG_0220_2.tif")
-img_3 = tiff.imread(".\\Elaborazione immagini\\altum-capture\\IMG_0220_3.tif")
-img_4 = tiff.imread(".\\Elaborazione immagini\\altum-capture\\IMG_0220_4.tif")
-img_5 = tiff.imread(".\\Elaborazione immagini\\altum-capture\\IMG_0220_5.tif")
+img_1 = tiff.imread(".\\13 - Elaborazione immagini\\altum-capture\\IMG_0220_1.tif")
+img_2 = tiff.imread(".\\13 - Elaborazione immagini\\altum-capture\\IMG_0220_2.tif")
+img_3 = tiff.imread(".\\13 - Elaborazione immagini\\altum-capture\\IMG_0220_3.tif")
+img_4 = tiff.imread(".\\13 - Elaborazione immagini\\altum-capture\\IMG_0220_4.tif")
+img_5 = tiff.imread(".\\13 - Elaborazione immagini\\altum-capture\\IMG_0220_5.tif")
 
 # Array totale NxMxK delle 5 immagini dove N ed M sono le dimensioni delle singole immagini e K = 5
 (N,M) = img_1.shape
@@ -34,7 +31,7 @@ array[:,:,3] = img_4
 array[:,:,4] = img_5
 
 # Apro il file di testo contenente la ROI
-file = open(".\\Elaborazione immagini\\altum-capture\\ROI_1.txt")
+file = open(".\\13 - Elaborazione immagini\\altum-capture\\ROI_1.txt")
 
 # Operazione di lettura
 riga = file.readline()
@@ -74,4 +71,5 @@ name = str(input("Salva come:"))
 
 statistic_ROI = [K, min, max, mean, std_dev]
 
-np.savetxt(".\\Elaborazione immagini\\altum-capture\\s" + name, statistic_ROI) # Consente di salvare un file
+# Consente di salvare un file
+np.savetxt(".\\13 - Elaborazione immagini\\altum-capture\\s" + name, statistic_ROI)

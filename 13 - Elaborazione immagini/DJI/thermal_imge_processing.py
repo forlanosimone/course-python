@@ -1,5 +1,5 @@
 ##
-#
+# Analisi difetti pannelli solari
 
 # Importo le librerie
 import numpy as np
@@ -7,7 +7,7 @@ import cv2 as cv
 import matplotlib.pyplot as plt
 
 # Leggo l'immagine
-PATH_img = ".\\Elaborazione immagini\\DJI\\DJI_0804.jpg"
+PATH_img = ".\\13 - Elaborazione immagini\\DJI\\DJI_0804.jpg"
 img = cv.imread(PATH_img) # In questo modo l'immagine viene letta come RGB
 #print(img[0,0]) # Vedo che tutti e 3 i canali hanno valori uguali
 

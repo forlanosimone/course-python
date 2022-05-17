@@ -18,10 +18,10 @@ import numpy as np # Al posto di np posso scrivere tutto (np - acronimo di numpy
 a = np.arange(3)
 b = np.arange(3)
 print(a)
-print(a[1]) # Possimao accedere agli elementi come nelle liste
+print(a[1])     # Possimao accedere agli elementi come nelle liste
 print(type(a))
 
-c = a + b # Con Numpy possiamo fare le somme come su MathLab
+c = a + b       # Con Numpy possiamo fare le somme come su MathLab
 print(c)
 
 # Moltiplicazione
@@ -30,28 +30,27 @@ print(a*4)
 a = [1,2,3] # Lista
 print(type(a))
 
-a = np.array([1,2,3]) # Array NumPy
-# a = np.array(1,2,3) # SBAGLIATO
+a = np.array([1,2,3])   # Array NumPy
+# a = np.array(1,2,3)   # SBAGLIATO
 print(type(a))
 
-print(a.dtype) # Andiamo a controllare il tipo  
+print(a.dtype)          # Andiamo a controllare il tipo  
 
 # NumPy può gestire anche i numeri complessi
 
 a = np.ones((3,3))
 print(a)
 
-print(a.ndim) # Consente di vedere il numero delle dimensioni
-print(a.shape) # Vediamo la dimensione dell'array
-print(a.dtype) # Vediamo il tipo
+print(a.ndim)       # Consente di vedere il numero delle dimensioni
+print(a.shape)      # Vediamo la dimensione dell'array
+print(a.dtype)      # Vediamo il tipo
 
-a = np.arange(5) # Restituisce un array (vettore) con 5 elementi 
+a = np.arange(5)    # Restituisce un array (vettore) con 5 elementi 
 print(a)
 
-a =np.arange(1,5) # Qui inserisco start, stop
+a =np.arange(1,5)   # Qui inserisco start, stop
 print(a)
-
-len(a) # Ci restituisce la lunghezza di a
+len(a)              # Ci restituisce la lunghezza di a
 
 a = np.arange(0,5,0.1) # Qui ho inserito start, stop, step
 print(a)

@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 
-img_g = cv2.imread(".\\Elaborazione immagini\\Image\\s1_g.png", cv2.IMREAD_GRAYSCALE)
+img_g = cv2.imread(".\\13 - Elaborazione immagini\\Image\\s1_g.png", cv2.IMREAD_GRAYSCALE)
 plt.imshow(img_g, cmap="gray")
 plt.show()
 

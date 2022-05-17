@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
 print(os.getcwd()) # In questo modo printiamo la Current Work Dircetory
-img = mpimg.imread(".\\Elaborazione immagini\\Image\\s1.png")
+img = mpimg.imread(".\\13 - Elaborazione immagini\\Image\\s1.png")
 print("Dimensione:", img.shape) # Ci mostra la dimensione, l'ultima cirfa corrisponde al numero di canali
 print("Canali:", img.ndim) # Numero di canali (RGB)
 

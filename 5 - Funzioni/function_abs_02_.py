@@ -1,4 +1,5 @@
-## Calcolo il valore assoluto du un float
+## 
+# Calcolo il valore assoluto di un float
 # @param x valore da valutare
 # @return valore assoluto di x
 
@@ -8,7 +9,7 @@ def abs_f(x): #abs_f nome univoco altrimenti abs crea ambiguità
     else:
         return -x
 
-#posso utilizzare una funzione con valore di ritorno nullo per formattare il testo in un certo modo
+# Posso utilizzare una funzione con valore di ritorno nullo per formattare il testo in un certo modo
 def log_message(messaggio):
     print("-------------------")
     print(messaggio)
@@ -21,4 +22,4 @@ def main():
     log_message("ciao")
 
 main()
-#la funzione main() ha lo scopo di essere il primo punto in ingresso nel momento in cui ho avviato il mio programma
+# La funzione main() ha lo scopo di essere il primo punto in ingresso nel momento in cui ho avviato il mio programma
