@@ -72,4 +72,4 @@ name = str(input("Salva come:"))
 statistic_ROI = [K, min, max, mean, std_dev]
 
 # Consente di salvare un file
-np.savetxt(".\\13 - Elaborazione immagini\\altum-capture\\s" + name, statistic_ROI)
+np.savetxt(".\\13 - Elaborazione immagini\\altum-capture\\" + name, statistic_ROI)
