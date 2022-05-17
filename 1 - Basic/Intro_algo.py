@@ -1,5 +1,5 @@
 ##
-# Sommo due numeri con input dell'utente
+# Sommo due numeri con input dell'utente, osservere con debugging
 
 A = input() # In questo modo andremo ad inserire una stringa
 B = input()

@@ -1,5 +1,107 @@
 ##
 # This program ...
+# URL DBSCAN: https://scikit-learn.org/stable/auto_examples/cluster/plot_dbscan.html#sphx-glr-auto-examples-cluster-plot-dbscan-py
+# URL Adaptive Thresholding: https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
 
-# Liters in a 12-ounce can
-a=8
+# Importo le librerie
+import cv2 as cv
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import DBSCAN
+
+# Apro il file
+try:
+    file = open(".\\Esame\\image.txt")
+except IOError:
+    print("il file non esiste")
+    #return -1
+
+# Operazione di lettura
+riga = str(file.readline())
+#print(riga)
+
+# Itero su riga_splitted
+riga_splitted = riga.split(";") # splitto la linea con il separatore (;) se il separatore era il tab ("\t") (carattere di tabulazione) splitto in una lista che contiene le 3
+for item in riga_splitted:
+    print(item)
+
+# Operazione di chiusura
+file.close()
+
+nome_1 = riga_splitted[0]
+nome_2 = riga_splitted[1]
+
+PATH_img = ".\\Esame\\"
+try:
+    img_1 = cv.imread(f'{PATH_img}{nome_1}', cv.IMREAD_GRAYSCALE)
+    img_2 = cv.imread(f'{PATH_img}{nome_2}', cv.IMREAD_GRAYSCALE)
+    print(img_1)
+    print(img_2)
+except IOError: # Vedere link su Elenco di lettura
+    print("Errore: il file non esiste")
+#plt.imshow(img_1)
+#plt.show()
+# plt.imshow(img_2, cmap="gray")
+# plt.show()
+
+# Estrazione ROI (Region Of Interest)
+# Posso fare una classe point dove fornisco x e y o inserisco le coordinate in una lista e poi splitto?
+start_x = (2800) #int(input("inserisci start_x:")) #1300
+start_y = (800) #int(input("inserisci start_y:")) #300
+stop_x = (3000) #int(input("inserisci stop_x:")) #3500
+stop_y = (1000) #int(input("inserisci stop_y:")) #1200
+
+roi_img = img_1[start_y:stop_y,start_x:stop_x]
+#plt.imshow(roi_img, cmap="gray")
+#plt.show()
+
+# Adaptive Thresholding
+th1 = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C,\
+            cv.THRESH_BINARY,11,5)
+th2 = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C,\
+            cv.THRESH_BINARY_INV,11,2)
+titles = ['1 - Adaptive Mean Thresholding', '0 - Adaptive Mean Thresholding Inv']
+images = [th1, th2]
+
+for i in range(2):
+    plt.subplot(1,2,i+1),
+    plt.imshow(images[i],'gray')
+    plt.title(titles[i])
+    plt.xticks([]),plt.yticks([])
+plt.show(block=0)
+
+v = int(input("Inserisi 0 o 1:"))
+
+th = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C, v,11,2)
+
+# Matrice P con pixel che hanno valori pari a v
+coordinate = []  # Lista delle coordinate
+last_x, last_y = 0, 0  # Inizilizziamo a zero
+
+rows, cols = th.shape  # Calcoliamo righe e colonne
+
+# Itero su righe e colonne con due for
+for x in range(rows):
+    for y in range(cols):
+        px = th[x, y]
+        if px == 255:
+                coordinate.append((y, x))
+        last_x, last_y = x, y
+
+coordinate.append((last_y, last_x))
+#print(coordinate)
+P = np.array(coordinate)
+print(P)
+#Matrice P n*2
+#[y1, x1,
+#y2, x2,
+#…
+#yN, xN]
+
+# Algoritmo DBSCAN
+X = np.array([[1, 2], [2, 2], [2, 3],
+              [8, 7], [8, 8], [25, 80]])
+clustering = DBSCAN(eps=3, min_samples=2).fit(P)
+clustering.labels_
+
+clustering

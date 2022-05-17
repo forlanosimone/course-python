@@ -1,8 +1,8 @@
-#voglio stampare i primi 10 numeri partendo da zero
-#a=variabile contatore
+##
+# Voglio stampare i primi 10 numeri partendo da zero
 
-a=0 #definisco valore iniziale
-while(a<10): #utilizzo <10 e non <=
+a = 0 # Variabile contatore, definisco valore iniziale
+while(a < 10): # Utilizzo <10 e non <=
     print(a)
-    a=a+1
-#devo incrementare altimenti a sarà sempre uguale a zero
+    a = a + 1 # Devo incrementare altimenti a sarà sempre uguale a zero
+
