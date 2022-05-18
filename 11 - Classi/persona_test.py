@@ -16,7 +16,7 @@ class test_persona(unittest.TestCase): # Con questa classe andiamo a testare la 
     def test_empty_fields(self): # Testiamo che il cognome di una persona vuota sia = al ?
         self.assertEqual(self.persona.get_cognome(),"?","Init error...")
         with self.assertRaises(ValueError): # Testiamo se solleva un'eccezione
-            self.persona.calcola_cf() # Se ci sono campi vuoi si sollva un ValueError
+            self.persona.calcola_cf() # Se ci sono campi vuoti si sollva un ValueError
     
     def test_full_data(self):           
         self.persona_full_data.calcola_cf()

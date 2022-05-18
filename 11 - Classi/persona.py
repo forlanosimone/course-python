@@ -23,7 +23,7 @@ class persona:
         return self.sesso
     def get_id(self):
         return self._id
-    def set_nome(self, nome):   # Il nome del parametro "nome" deve riflettere il nome del parametro di instanza
+    def set_nome(self, nome):   # Il nome del parametro "nome" deve riflettere il nome del parametro di istanza
         self.nome = nome        # Scrivendo self.nome mi riferisco alla variabile di instanza
     def set_cognome(self, cognome):
         self.cognome = cognome

@@ -8,11 +8,14 @@ import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import DBSCAN
-from sklearn.datasets import make_blobs
+from sklearn.preprocessing import StandardScaler
+from point import point
 
 # Apro il file
-try:
-    file = open(".\\Esame\\image.txt")
+PATH_file = ".\\Esame\\image.txt"
+
+try:   
+    file = open(PATH_file)
 except IOError:
     print("il file non esiste")
     #return -1
@@ -33,6 +36,7 @@ nome_1 = riga_splitted[0]
 nome_2 = riga_splitted[1]
 
 PATH_img = ".\\Esame\\"
+
 try:
     img_1 = cv.imread(f'{PATH_img}{nome_1}', cv.IMREAD_GRAYSCALE)
     img_2 = cv.imread(f'{PATH_img}{nome_2}', cv.IMREAD_GRAYSCALE)
@@ -47,12 +51,19 @@ except IOError: # Vedere link su Elenco di lettura
 
 # Estrazione ROI (Region Of Interest)
 # Posso fare una classe point dove fornisco x e y o inserisco le coordinate in una lista e poi splitto?
-start_x = (2800) #int(input("inserisci start_x:")) #1300
-start_y = (800) #int(input("inserisci start_y:")) #300
-stop_x = (3000) #int(input("inserisci stop_x:")) #3500
-stop_y = (1000) #int(input("inserisci stop_y:")) #1200
+start_x = (2800) #int(input("inserisci start_x:")) #2800
+start_y = (800) #int(input("inserisci start_y:")) #800
+stop_x = (3000) #int(input("inserisci stop_x:")) #3000
+stop_y = (1000) #int(input("inserisci stop_y:")) #1000
 
-roi_img = img_1[start_y:stop_y,start_x:stop_x]
+roi_img = img_1[start_y:stop_y ,start_x:stop_x] # Prima la y (righe) poi x (colonne)
+
+# CLASSE
+#roi = point(input("scrivi start_x"),input("scrivi start_y"),input("scrivi stop_x"),input("scrivi stop_y"))
+#roi_img = img_1[roi.get_start_y() : roi.get_stop_x() , roi.get_start_x() : roi.get_stop_x()]
+#roi_img = img_1[roi.get_roi()]
+
+# PLOT ROI
 #plt.imshow(roi_img, cmap="gray")
 #plt.show()
 
@@ -93,6 +104,7 @@ coordinate.append((last_y, last_x))
 #print(coordinate)
 P = np.array(coordinate)
 print(P)
+
 #Matrice P n*2
 #[y1, x1,
 #y2, x2,
@@ -100,4 +112,14 @@ print(P)
 #yN, xN]
 
 # Algoritmo DBSCAN
-db = DBSCAN(eps=3, min_samples=2).fit(P)
+eps = 2 #int(input("inserisci eps:"))
+min_samples = 5 #int(input("inserisci min_samples:"))
+
+#X = StandardScaler().fit_transform(P)
+db = DBSCAN(eps, min_samples).fit(P)
+
+# Plot
+F = np.ones((rows, cols))
+
+plt.imshow(F)
+plt.show()
