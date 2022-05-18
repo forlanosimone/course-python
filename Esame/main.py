@@ -112,11 +112,11 @@ print(P)
 #yN, xN]
 
 # Algoritmo DBSCAN
-eps = 2 #int(input("inserisci eps:"))
-min_samples = 5 #int(input("inserisci min_samples:"))
+#eps = int(input("inserisci eps:")) #2
+#min_samples = int(input("inserisci min_samples:")) #5
 
 #X = StandardScaler().fit_transform(P)
-db = DBSCAN(eps, min_samples).fit(P)
+db = DBSCAN(eps = 2, min_samples = 5).fit(P)
 
 # Plot
 F = np.ones((rows, cols))
