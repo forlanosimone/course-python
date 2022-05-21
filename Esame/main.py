@@ -1,5 +1,5 @@
 ##
-# This program ...
+# Questo codice premette di...
 # URL DBSCAN: https://scikit-learn.org/stable/auto_examples/cluster/plot_dbscan.html#sphx-glr-auto-examples-cluster-plot-dbscan-py
 # URL Adaptive Thresholding: https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
 
@@ -7,47 +7,26 @@
 import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
+
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
-from point import point
 
-# Apro il file
+from point import point
+from Moduli.read_file import read_file
+
+# Definisco il path del file di testo e leggo i nomi delle immagini
 PATH_file = ".\\Esame\\image.txt"
 
-try:   
-    file = open(PATH_file)
-except IOError:
-    print("il file non esiste")
-    #return -1
+riga_splitted = read_file(PATH_file)
 
-# Operazione di lettura
-riga = str(file.readline())
-#print(riga)
-
-# Itero su riga_splitted
-riga_splitted = riga.split(";") # splitto la linea con il separatore (;) se il separatore era il tab ("\t") (carattere di tabulazione) splitto in una lista che contiene le 3
+PATH_img = ".\\Esame\\Immagini\\"
+i=0
 for item in riga_splitted:
-    print(item)
-
-# Operazione di chiusura
-file.close()
-
-nome_1 = riga_splitted[0]
-nome_2 = riga_splitted[1]
-
-PATH_img = ".\\Esame\\"
-
-try:
-    img_1 = cv.imread(f'{PATH_img}{nome_1}', cv.IMREAD_GRAYSCALE)
-    img_2 = cv.imread(f'{PATH_img}{nome_2}', cv.IMREAD_GRAYSCALE)
-    print(img_1)
-    print(img_2)
-except IOError: # Vedere link su Elenco di lettura
-    print("Errore: il file non esiste")
-#plt.imshow(img_1)
-#plt.show()
-# plt.imshow(img_2, cmap="gray")
-# plt.show()
+    nome = riga_splitted[i]
+    img = cv.imread(f'{PATH_img}{nome}', cv.IMREAD_GRAYSCALE)
+    plt.imshow(img, cmap = "gray")
+    plt.show()
+    i+=1
 
 # Estrazione ROI (Region Of Interest)
 # Posso fare una classe point dove fornisco x e y o inserisco le coordinate in una lista e poi splitto?
@@ -56,7 +35,7 @@ start_y = (800) #int(input("inserisci start_y:")) #800
 stop_x = (3000) #int(input("inserisci stop_x:")) #3000
 stop_y = (1000) #int(input("inserisci stop_y:")) #1000
 
-roi_img = img_1[start_y:stop_y ,start_x:stop_x] # Prima la y (righe) poi x (colonne)
+roi_img = img[start_y:stop_y ,start_x:stop_x] # Prima la y (righe) poi x (colonne)
 
 # CLASSE
 #roi = point(input("scrivi start_x"),input("scrivi start_y"),input("scrivi stop_x"),input("scrivi stop_y"))
@@ -68,21 +47,24 @@ roi_img = img_1[start_y:stop_y ,start_x:stop_x] # Prima la y (righe) poi x (colo
 #plt.show()
 
 # Adaptive Thresholding
-th1 = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C,\
+th = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C,\
             cv.THRESH_BINARY,11,5)
-th2 = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C,\
+th_inv = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C,\
             cv.THRESH_BINARY_INV,11,2)
-titles = ['1 - Adaptive Mean Thresholding', '0 - Adaptive Mean Thresholding Inv']
-images = [th1, th2]
+titles = ['Valore grilli v=0', 'Valore grilli v=255']
+images = [th, th_inv]
 
 for i in range(2):
     plt.subplot(1,2,i+1),
     plt.imshow(images[i],'gray')
     plt.title(titles[i])
     plt.xticks([]),plt.yticks([])
-plt.show(block=0)
+plt.show()
 
-v = int(input("Inserisi 0 o 1:"))
+v = int(input("Inserisi 0 o 255:"))
+
+if v == 255:
+    v = 1
 
 th = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C, v,11,2)
 
@@ -101,7 +83,7 @@ for x in range(rows):
         last_x, last_y = x, y
 
 coordinate.append((last_y, last_x))
-#print(coordinate)
+print(coordinate)
 P = np.array(coordinate)
 print(P)
 
