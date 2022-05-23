@@ -31,6 +31,6 @@ plt.imshow(img_ch0, cmap="gray")
 plt.show()
 
 # Binary Thresholding
-binary_img = img_ch0 > 0.6 # Ho selezionato i pin che hanno un valore maggiore di 0.6
+binary_img = img_ch0 > 0.6 # Ho selezionato i pixel che hanno un valore maggiore di 0.6
 plt.imshow(binary_img, cmap="gray")
 plt.show()

@@ -11,47 +11,50 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
 
-from point import point
-from Moduli.read_file import read_file
+from moduli import read, crop_imge
+from moduli.plt_img import plt_img
 
 # Definisco il path del file di testo e leggo i nomi delle immagini
 PATH_file = ".\\Esame\\image.txt"
+riga_splitted = read.read_txt(PATH_file)
 
-riga_splitted = read_file(PATH_file)
+# Definisco il path delle immagini
+PATH_img = ".\\Esame\\immagini\\"
+img = read.read_img(PATH_img, riga_splitted)
 
-PATH_img = ".\\Esame\\Immagini\\"
-i=0
-for item in riga_splitted:
-    nome = riga_splitted[i]
-    img = cv.imread(f'{PATH_img}{nome}', cv.IMREAD_GRAYSCALE)
-    plt.imshow(img, cmap = "gray")
-    plt.show()
-    i+=1
+# Plot immagine
+plt_img(img, "Immagine Originale")
 
 # Estrazione ROI (Region Of Interest)
-# Posso fare una classe point dove fornisco x e y o inserisco le coordinate in una lista e poi splitto?
-start_x = (2800) #int(input("inserisci start_x:")) #2800
-start_y = (800) #int(input("inserisci start_y:")) #800
-stop_x = (3000) #int(input("inserisci stop_x:")) #3000
-stop_y = (1000) #int(input("inserisci stop_y:")) #1000
-
-roi_img = img[start_y:stop_y ,start_x:stop_x] # Prima la y (righe) poi x (colonne)
+roi_img = crop_imge.roi(img)
 
 # CLASSE
 #roi = point(input("scrivi start_x"),input("scrivi start_y"),input("scrivi stop_x"),input("scrivi stop_y"))
 #roi_img = img_1[roi.get_start_y() : roi.get_stop_x() , roi.get_start_x() : roi.get_stop_x()]
 #roi_img = img_1[roi.get_roi()]
 
-# PLOT ROI
-#plt.imshow(roi_img, cmap="gray")
-#plt.show()
+# Plot ROI
+plt_img(roi_img, "Region of Interest")
 
 # Adaptive Thresholding
 th = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C,\
-            cv.THRESH_BINARY,11,5)
+            cv.THRESH_BINARY,21,6)
 th_inv = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C,\
-            cv.THRESH_BINARY_INV,11,2)
-titles = ['Valore grilli v=0', 'Valore grilli v=255']
+            cv.THRESH_BINARY_INV,21,6)
+
+# Erosione e dilatazione
+'''
+kernel = np.ones((3,3))
+kernel[1,1] = 1
+kernel_2 = kernel
+kernel_2[1,1] = 2
+th_filter= cv.dilate(th, kernel)
+th_filter= cv.erode(th, kernel_2)
+noiseless_image_bw = cv.fastNlMeansDenoising(roi_img, None, h = 10, templateWindowSize = 7,\
+                                            searchWindowSize = 21)
+'''
+# Plot ROI con 2 valori
+titles = ["Valore grilli v=0", "Valore grilli v=255"]
 images = [th, th_inv]
 
 for i in range(2):
@@ -61,12 +64,15 @@ for i in range(2):
     plt.xticks([]),plt.yticks([])
 plt.show()
 
-v = int(input("Inserisi 0 o 255:"))
+# Utente sceglie valore dei grilli
+v = int(input("Inserisi valori grilli, 0 o 255:"))
 
 if v == 255:
     v = 1
 
-th = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C, v,11,2)
+# Plot immagine con valore scelto
+th = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C, v,21,6)
+plt_img(th,"Immagine con valori scelti")
 
 # Matrice P con pixel che hanno valori pari a v
 coordinate = []  # Lista delle coordinate
@@ -74,34 +80,29 @@ last_x, last_y = 0, 0  # Inizilizziamo a zero
 
 rows, cols = th.shape  # Calcoliamo righe e colonne
 
+if v == 1:
+    v = 255
+
 # Itero su righe e colonne con due for
-for x in range(rows):
-    for y in range(cols):
+for x in range(399):
+    for y in range(499):
         px = th[x, y]
-        if px == 255:
+        if px == v:
                 coordinate.append((y, x))
         last_x, last_y = x, y
 
 coordinate.append((last_y, last_x))
-print(coordinate)
 P = np.array(coordinate)
 print(P)
-
-#Matrice P n*2
-#[y1, x1,
-#y2, x2,
-#…
-#yN, xN]
+plt_img(th,"Immagine con valori scelti")
 
 # Algoritmo DBSCAN
-#eps = int(input("inserisci eps:")) #2
-#min_samples = int(input("inserisci min_samples:")) #5
+eps = 2 #int(input("inserisci eps (Es.2):"))
+min_samples = 5 #int(input("inserisci min_samples (Es.5):"))
 
 #X = StandardScaler().fit_transform(P)
 db = DBSCAN(eps = 2, min_samples = 5).fit(P)
 
 # Plot
-F = np.ones((rows, cols))
-
-plt.imshow(F)
-plt.show()
+F = np.full((rows, cols), -1)
+print(F)
