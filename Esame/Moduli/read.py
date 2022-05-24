@@ -1,21 +1,32 @@
 '''
-Questo modulo permette di leggere il file image.txt e ritornare una lista 
-con il nome delle immagini all'interno del file.
+Questo modulo contiene diverse funzione per la lettura e apertura di file, 
+immagini o input in base alla funzione scelta.
 '''
-
-from unittest import result
+# Importo le librerie
 import sys
+import cv2 as cv
+import matplotlib.pyplot as plt
 
-#PATH_file = ".\\Esame\\image.txt"
+def read_int(str_x):
+    "Questa funzione permette di prendere in input un numero intero, in caso di valore errato ci sarà un'eccezione."
+    letto = False # Condizione
+    while not letto:
+        try:
+            res = int(input(str_x))
+            letto = True
+        except ValueError as err:
+            print(err)
+    return res
+
 
 def read_txt(PATH_file):
-    # Operazione di apertura    
-    try:   
+    "Questa funzione permette di leggere un file e ritornare una lista, con il nome delle immagini all'interno del file." 
+    try:
         file = open(PATH_file, "r") # Apro il file in modalità di lettura
     except IOError:
-        print("il file non esiste, controllare PATH_file")
+        print(f'il file non esiste, controllare PATH_file {PATH_file}')
         sys.exit(1)
-
+    
     # Operazione di lettura
     riga = file.read()
     riga_splitted = riga.split("\n")
@@ -25,30 +36,24 @@ def read_txt(PATH_file):
 
     return riga_splitted
 
-#riga_splitted = read_txt(PATH_file)
-
-import cv2 as cv
-import matplotlib.pyplot as plt
-
-#PATH_img = ".\\Esame\\immagini\\"
-
-def read_img(PATH_img, riga_splitted):
+def read_img(PATH_img, nome):
+    "Questa funzione permette di aprire un'immagine... "
     # Operazione di lettura
-    nome = riga_splitted[0]
+    img = cv.imread(f'{PATH_img}{nome}', cv.IMREAD_GRAYSCALE) # Conversione immagine in scala di grigi
+    #img = cv.imread(f'{PATH_img}{nome}')
+    #img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
-    img = cv.imread(f'{PATH_img}{nome}', cv.IMREAD_GRAYSCALE)
-
-    if img.all == None:
-        print("L'immagine non esiste, controllare PATH_img e l'immagine")
-        sys.exit(1)
+    print(cv.haveImageReader(f'{PATH_img}{nome}')) # Restituisce true se l'immagine specificata può essere decodificata da OpenCV
+    # Eccezione
+    if (img is None):
+        raise ValueError("L'immagine non esiste, controllare PATH_img e l'immagine")
+      
     return img
 
-#read_img(PATH_img, riga_splitted)
+if(__name__ == "__main__"):
+    print("voglio fare il test...")
+    PATH_img = ".\\Esame\\immagini\\"
+    PATH_file = ".\\Esame\\image.txt"
+    riga_splitted = read_txt(PATH_file)
+    read_img(PATH_img, riga_splitted)
 
-#     i=0
-# for item in riga_splitted:
-#     nome = riga_splitted[i]
-#     img = cv.imread(f'{PATH_img}{nome}', cv.IMREAD_GRAYSCALE)
-#     plt.imshow(img, cmap = "gray")
-#     plt.show()
-#     i+=1

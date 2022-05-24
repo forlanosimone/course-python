@@ -4,105 +4,132 @@
 # URL Adaptive Thresholding: https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
 
 # Importo le librerie
+import sys
 import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
-
 from sklearn.cluster import DBSCAN
-from sklearn.preprocessing import StandardScaler
 
 from moduli import read, crop_imge
-from moduli.plt_img import plt_img
+from moduli.plt import plt_img
 
-# Definisco il path del file di testo e leggo i nomi delle immagini
-PATH_file = ".\\Esame\\image.txt"
-riga_splitted = read.read_txt(PATH_file)
+def main():
+    # Definisco il path del file di testo e leggo i nomi delle immagini
+    PATH_file = ".\\Esame\\image.txt"
+    riga_splitted = read.read_txt(PATH_file)
 
-# Definisco il path delle immagini
-PATH_img = ".\\Esame\\immagini\\"
-img = read.read_img(PATH_img, riga_splitted)
+    # Definisco il path delle immagini
+    PATH_img = ".\\Esame\\immagini\\"
+    # Ripeto per tutte le immaigni
+    for item in riga_splitted:
+        try:
+            img = read.read_img(PATH_img, item)
+        except ValueError as err:
+            print(f'Eccezione di tipo value error per {item}\n{err}')
+            sys.exit(1)
 
-# Plot immagine
-plt_img(img, "Immagine Originale")
+        # Plot immagine
+        plt_img(img, "Immagine Originale")
 
-# Estrazione ROI (Region Of Interest)
-roi_img = crop_imge.roi(img)
+        # Estrazione ROI (Region Of Interest)
+        roi_img = crop_imge.roi(img)
 
-# CLASSE
-#roi = point(input("scrivi start_x"),input("scrivi start_y"),input("scrivi stop_x"),input("scrivi stop_y"))
-#roi_img = img_1[roi.get_start_y() : roi.get_stop_x() , roi.get_start_x() : roi.get_stop_x()]
-#roi_img = img_1[roi.get_roi()]
+        # Plot ROI
+        plt_img(roi_img, "Region of Interest")
 
-# Plot ROI
-plt_img(roi_img, "Region of Interest")
+        # Adaptive Thresholding
+        BLOCK_SIZE = 21 # Dimensione di pixel vicini utilizzati per calcolare la soglia
+        C = 6 # Costante sottratta dalla media
 
-# Adaptive Thresholding
-th = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C,\
-            cv.THRESH_BINARY,21,6)
-th_inv = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C,\
-            cv.THRESH_BINARY_INV,21,6)
+        th_adp = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C,\
+                    cv.THRESH_BINARY, BLOCK_SIZE, C)
+        th_adp_inv = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C,\
+                    cv.THRESH_BINARY_INV, BLOCK_SIZE, C)
 
-# Erosione e dilatazione
-'''
-kernel = np.ones((3,3))
-kernel[1,1] = 1
-kernel_2 = kernel
-kernel_2[1,1] = 2
-th_filter= cv.dilate(th, kernel)
-th_filter= cv.erode(th, kernel_2)
-noiseless_image_bw = cv.fastNlMeansDenoising(roi_img, None, h = 10, templateWindowSize = 7,\
-                                            searchWindowSize = 21)
-'''
-# Plot ROI con 2 valori
-titles = ["Valore grilli v=0", "Valore grilli v=255"]
-images = [th, th_inv]
+        # Erosione e dilatazione
+        '''
+        kernel = np.ones((3,3))
+        kernel[1,1] = 1
+        kernel_2 = kernel
+        kernel_2[1,1] = 2
+        th_filter= cv.dilate(th, kernel)
+        th_filter= cv.erode(th, kernel_2)
+        noiseless_image_bw = cv.fastNlMeansDenoising(roi_img, None, h = 10, templateWindowSize = 7,\
+                                                    searchWindowSize = 21)
+        '''
 
-for i in range(2):
-    plt.subplot(1,2,i+1),
-    plt.imshow(images[i],'gray')
-    plt.title(titles[i])
-    plt.xticks([]),plt.yticks([])
-plt.show()
+        # Plot ROI con 2 valori
+        titles = ["Valore grilli v=0", "Valore grilli v=255"]
+        images = [th_adp, th_adp_inv]
 
-# Utente sceglie valore dei grilli
-v = int(input("Inserisi valori grilli, 0 o 255:"))
+        for i in range(2):
+            plt.subplot(1,2,i+1),
+            plt.imshow(images[i],'gray')
+            plt.title(titles[i])
+            plt.xticks([]),plt.yticks([])
+        plt.show(block = False)
 
-if v == 255:
-    v = 1
+        # Utente sceglie valore dei grilli
+        v = -1
+        while(v != 255 and v != 0):
+            v = read.read_int("Inserisci valori grilli (0 o 255): ")
+            if v == 255:
+                th = th_adp_inv
+            elif v == 0:
+                th = th_adp
+            else:
+                print(f'Valore errore {v} diverso 255 o 0')
 
-# Plot immagine con valore scelto
-th = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C, v,21,6)
-plt_img(th,"Immagine con valori scelti")
+        # Plot immagine con valore scelto
+        plt_img(th,f'Immagine v = {v}')
 
-# Matrice P con pixel che hanno valori pari a v
-coordinate = []  # Lista delle coordinate
-last_x, last_y = 0, 0  # Inizilizziamo a zero
+        # Matrice P con pixel che hanno valori pari a v
+        coordinate = []  # Lista delle coordinate
+        last_x, last_y = 0, 0  # Inizilizziamo a zero
 
-rows, cols = th.shape  # Calcoliamo righe e colonne
+        rows, cols = th.shape  # Calcoliamo righe e colonne
 
-if v == 1:
-    v = 255
+        # Itero su righe e colonne con due for per prendere le coordinate dei pixel uguali a v
+        for x in range(cols):
+            for y in range(rows):
+                px = th[y, x]
+                if px == v:
+                    coordinate.append((y, x))
+                last_x, last_y = x, y
 
-# Itero su righe e colonne con due for
-for x in range(399):
-    for y in range(499):
-        px = th[x, y]
-        if px == v:
-                coordinate.append((y, x))
-        last_x, last_y = x, y
+        coordinate.append((last_y, last_x))
+        P = np.array(coordinate)
+        print("MATRICE DELLE COORDINATE")
+        print(P)
+        plt_img(th,"Confronta con matrice delle coordinate")
 
-coordinate.append((last_y, last_x))
-P = np.array(coordinate)
-print(P)
-plt_img(th,"Immagine con valori scelti")
+        # Algoritmo DBSCAN
+        # eps -> distanza all'interno della quale ricercare i punti vicini
+        EPS = 5 #int(input("inserisci eps (Es.2):"))
 
-# Algoritmo DBSCAN
-eps = 2 #int(input("inserisci eps (Es.2):"))
-min_samples = 5 #int(input("inserisci min_samples (Es.5):"))
+        # min_samples -> numero minimo di punti affinché si formi un cluster
+        MIN_SAMPLES = 20 #int(input("inserisci min_samples (Es.5):"))
 
-#X = StandardScaler().fit_transform(P)
-db = DBSCAN(eps = 2, min_samples = 5).fit(P)
+        db = DBSCAN(EPS, min_samples = MIN_SAMPLES).fit(P)
+        labels = db.labels_
 
-# Plot
-F = np.full((rows, cols), -1)
-print(F)
+        # Numero di cluster nelle etichette, ignorando il rumore se presente.
+        n_clusters = len(set(labels)) - (1 if -1 in labels else 0)
+        n_noise = list(labels).count(-1)
+        print(f'Numero di cluster stimati: {n_clusters}')
+        print(f'Numero stimato di punti di disturbo: {n_noise}')
+        
+        # Matrice F
+        F = np.full((rows, cols), -1)
+       
+        r,c = P.shape
+
+        y = 0
+        x = 0
+        i = 0
+        for x in range(c):
+            for y in range(r):
+                F [y,x] = labels[i] # Associo l'identificatore del cluster
+                i += 1
+
+main()
