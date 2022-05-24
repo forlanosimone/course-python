@@ -10,20 +10,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import DBSCAN
 
-from moduli import read, crop_imge
+from moduli import read, crop_image
 from moduli.plt import plt_img
 
 def main():
     # Definisco il path del file di testo e leggo i nomi delle immagini
-    PATH_file = ".\\Esame\\image.txt"
-    riga_splitted = read.read_txt(PATH_file)
+    PATH_FILE = ".\\Esame\\image.txt"
+    name_splitted = read.read_txt(PATH_FILE)
 
     # Definisco il path delle immagini
-    PATH_img = ".\\Esame\\immagini\\"
+    PATH_IMG = ".\\Esame\\immagini\\"
     # Ripeto per tutte le immaigni
-    for item in riga_splitted:
+    for item in name_splitted:
         try:
-            img = read.read_img(PATH_img, item)
+            img = read.read_img(PATH_IMG, item)
         except ValueError as err:
             print(f'Eccezione di tipo value error per {item}\n{err}')
             sys.exit(1)
@@ -32,7 +32,7 @@ def main():
         plt_img(img, "Immagine Originale")
 
         # Estrazione ROI (Region Of Interest)
-        roi_img = crop_imge.roi(img)
+        roi_img = crop_image.roi(img)
 
         # Plot ROI
         plt_img(roi_img, "Region of Interest")
@@ -48,14 +48,12 @@ def main():
 
         # Erosione e dilatazione
         '''
-        kernel = np.ones((3,3))
-        kernel[1,1] = 1
-        kernel_2 = kernel
-        kernel_2[1,1] = 2
-        th_filter= cv.dilate(th, kernel)
-        th_filter= cv.erode(th, kernel_2)
-        noiseless_image_bw = cv.fastNlMeansDenoising(roi_img, None, h = 10, templateWindowSize = 7,\
-                                                    searchWindowSize = 21)
+        # Codice di prova non implementato
+        kernel_1 = np.ones((3,3))
+        kernel_2 = np.copy(kernel_1)
+        kernel_2 [1,1] = 2
+        th_filter = cv.dilate(th_adp, kernel_1)
+        th_filter = cv.erode(th_adp, kernel_2)
         '''
 
         # Plot ROI con 2 valori
@@ -67,11 +65,12 @@ def main():
             plt.imshow(images[i],'gray')
             plt.title(titles[i])
             plt.xticks([]),plt.yticks([])
+            plt.colorbar(ticks=[0, 255], orientation='horizontal')
         plt.show(block = False)
 
         # Utente sceglie valore dei grilli
         v = -1
-        while(v != 255 and v != 0):
+        while (v != 255 and v != 0):
             v = read.read_int("Inserisci valori grilli (0 o 255): ")
             if v == 255:
                 th = th_adp_inv
@@ -118,7 +117,7 @@ def main():
         n_noise = list(labels).count(-1)
         print(f'Numero di cluster stimati: {n_clusters}')
         print(f'Numero stimato di punti di disturbo: {n_noise}')
-        
+
         # Matrice F
         F = np.full((rows, cols), -1)
        
