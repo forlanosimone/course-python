@@ -1,7 +1,7 @@
 ##
 # Questo codice premette di...
-# URL DBSCAN: https://scikit-learn.org/stable/auto_examples/cluster/plot_dbscan.html#sphx-glr-auto-examples-cluster-plot-dbscan-py
 # URL Adaptive Thresholding: https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
+# URL DBSCAN: https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN
 
 # Importo le librerie
 import sys
@@ -14,33 +14,38 @@ from moduli import read, crop_image
 from moduli.plt import plt_img
 
 def main():
-    # Definisco il path del file di testo e leggo i nomi delle immagini
+    # Definisco il path del file di testo e leggo i nomi delle immagini con la funzione read_txt
     PATH_FILE = ".\\Esame\\image.txt"
     name_splitted = read.read_txt(PATH_FILE)
 
     # Definisco il path delle immagini
     PATH_IMG = ".\\Esame\\immagini\\"
-    # Ripeto per tutte le immaigni
+    # Ripeto il codice per tutte le immagini in name_splitted
     for item in name_splitted:
         try:
             img = read.read_img(PATH_IMG, item)
         except ValueError as err:
             print(f'Eccezione di tipo value error per {item}\n{err}')
-            sys.exit(1)
+            sys.exit(1) # Printo l'errore e esco
 
-        # Plot immagine
-        plt_img(img, "Immagine Originale")
+        # Plot immagine utilizzando la funzione plt_img
+        plt_img(img, "Immagine Originale", False)
 
-        # Estrazione ROI (Region Of Interest)
+        # Estrazione ROI (Region Of Interest) con la funzione roi
         roi_img = crop_image.roi(img)
 
-        # Plot ROI
-        plt_img(roi_img, "Region of Interest")
+        # Plot ROI utilizzando la funzione plt_img
+        plt_img(roi_img, "Region of Interest", False)
 
-        # Adaptive Thresholding
+        # Eseguo l'adaptive thresholding sulla roi
         BLOCK_SIZE = 21 # Dimensione di pixel vicini utilizzati per calcolare la soglia
         C = 6 # Costante sottratta dalla media
-
+        '''
+        L'algoritmo determina la soglia per un pixel in base a una piccola regione attorno ad esso.
+        Quindi otteniamo soglie diverse per diverse regioni della stessa immagine che danno 
+        risultati migliori per immagini con illuminazione variabile.
+        '''
+        # Realizzo due threshold con adaptiveMethod diversi in modo da realizzare....
         th_adp = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C,\
                     cv.THRESH_BINARY, BLOCK_SIZE, C)
         th_adp_inv = cv.adaptiveThreshold(roi_img,255,cv.ADAPTIVE_THRESH_MEAN_C,\
@@ -66,7 +71,7 @@ def main():
             plt.title(titles[i])
             plt.xticks([]),plt.yticks([])
             plt.colorbar(ticks=[0, 255], orientation='horizontal')
-        plt.show(block = False)
+        plt.show(block = True)
 
         # Utente sceglie valore dei grilli
         v = -1
@@ -80,27 +85,23 @@ def main():
                 print(f'Valore errore {v} diverso 255 o 0')
 
         # Plot immagine con valore scelto
-        plt_img(th,f'Immagine v = {v}')
+        plt_img(th,f'Immagine v = {v}', True)
 
         # Matrice P con pixel che hanno valori pari a v
         coordinate = []  # Lista delle coordinate
-        last_x, last_y = 0, 0  # Inizilizziamo a zero
+        #last_x, last_y = 0, 0  # Inizilizziamo a zero
 
         rows, cols = th.shape  # Calcoliamo righe e colonne
 
         # Itero su righe e colonne con due for per prendere le coordinate dei pixel uguali a v
-        for x in range(cols):
-            for y in range(rows):
-                px = th[y, x]
-                if px == v:
+        for x in range(rows):
+            for y in range(cols): 
+                if th[x, y] == v:
                     coordinate.append((y, x))
-                last_x, last_y = x, y
 
-        coordinate.append((last_y, last_x))
         P = np.array(coordinate)
-        print("MATRICE DELLE COORDINATE")
-        print(P)
-        plt_img(th,"Confronta con matrice delle coordinate")
+        print(f'MATRICE DELLE COORDINATE \n{P}')
+        plt_img(th,"Confronta con matrice delle coordinate", True)
 
         # Algoritmo DBSCAN
         # eps -> distanza all'interno della quale ricercare i punti vicini
@@ -118,17 +119,15 @@ def main():
         print(f'Numero di cluster stimati: {n_clusters}')
         print(f'Numero stimato di punti di disturbo: {n_noise}')
 
-        # Matrice F
+        # Matrice F con dimenisone uguale alla roi_img inizilizzata a -1
         F = np.full((rows, cols), -1)
-       
-        r,c = P.shape
 
-        y = 0
-        x = 0
-        i = 0
-        for x in range(c):
-            for y in range(r):
-                F [y,x] = labels[i] # Associo l'identificatore del cluster
-                i += 1
-
+        i = 0 # Contatore
+        for item in P:
+            y = item[0]
+            x = item[1]
+            F[x,y] = labels[i]
+            i += 1
+        print(F)
+        
 main()
