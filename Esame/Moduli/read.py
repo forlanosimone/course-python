@@ -15,12 +15,13 @@ def read_int(str_x):
         # Gestione dell'errore
         try:
             res = int(input(str_x)) # Faccio il cast a intero
-            if res >= 0:     
+            # Verifico che l'input sia maggiore di zero
+            if res >= 0:   
                 letto = True
             else:
-                print("deve esseera maggio di zero..")
+                print("Il numero inserito deve essere maggiore di zero..")
         except ValueError: # Valore non appropriato
-            print("Bisonga inserire un numero interno maggiore di zero...")
+            print("Bisonga inserire un numero interno...")
     return res
 
 # @param PATH_FILE posizione del file
