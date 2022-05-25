@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import DBSCAN
 
 from moduli import read, crop_image
-from moduli.plt import plt_img
+from moduli.plt import plt_img, plt_img_block
 
 def main():
     # Definisco il path del file di testo e leggo i nomi delle immagini con la funzione read_txt
@@ -28,6 +28,7 @@ def main():
     PATH_IMG = ".\\Esame\\immagini\\"
     # Ripeto il codice per tutte le immagini in name_splitted
     for item in name_splitted:
+        print(f'Codice eseguito per: {item}')
         try:
             img = read.read_img(PATH_IMG, item)
         except ValueError as err: # Catturo l'eccezione sollevata nella funzione read_img
@@ -35,16 +36,16 @@ def main():
             sys.exit(1) # Printo l'errore e esco
 
         # Plot immagine utilizzando la funzione plt_img
-        # Parametri (Array, Titolo, True o False per plot bloccante o non bloccante)
-        plt_img(img, "Immagine Originale", False)
+        # Parametri (Array, Titolo)
+        plt_img(img, "Immagine Originale")
 
         # Estrazione ROI (Region Of Interest) con la funzione roi
         print("Con il cursore sull'immaigne scegliere i valori da inserire...")
         roi_img = crop_image.roi(img)
 
-        # Plot ROI utilizzando la funzione plt_img
-        # Parametri (Array, Titolo, True o False per plot bloccante o non bloccante)
-        plt_img(roi_img, "Region of Interest", False)
+        # Plot ROI utilizzando la funzione plt_img_block
+        # Parametri (Array, Titolo)
+        plt_img_block(roi_img, "Region of Interest inserita")
 
         # Eseguo l'adaptive thresholding sulla roi
         BLOCK_SIZE = 21 # Dimensione di pixel vicini utilizzati per calcolare la soglia
@@ -82,7 +83,7 @@ def main():
             plt.title(titles[i]) # Titoli delle immagini
             plt.xticks([]),plt.yticks([])
             plt.colorbar(ticks=[0, 255], orientation='horizontal') # Barre dei colori
-        plt.show(block = True)
+        plt.show()
 
         # Faccio scegliere all'utente il valore dei grilli 0 o 255
         v = -1 # Inizializzo il valore
@@ -99,10 +100,6 @@ def main():
                 \n{v} != 255\
                 \n{v} != 0')
 
-        # Plot immagine utilizzando la funzione plt_img
-        # Parametri (Array, Titolo, True o False per plot bloccante o non bloccante)
-        plt_img(th,f'Immagine v = {v}', True)
-
         # Faccio la matrice P con le coordinate dei pixel che hanno valori pari a v
         coordinate = []  # Lista delle coordinate
 
@@ -118,8 +115,7 @@ def main():
 
         # Faccio il print della matrice delle coordinate
         print(f'MATRICE DELLE COORDINATE \n{P}')
-        plt_img(th,"Confronta con matrice delle coordinate", True)
-
+        plt_img_block(th,f'Immagine v = {v}')
         # Algoritmo DBSCAN
         '''
         Density-Based Spatial Clustering of Applications with Noise è un algoritmo di clustering
@@ -131,6 +127,7 @@ def main():
         '''
         
         # Leggo i valori di EPS e MIN_SAMPLES con la funzione read_int
+        print("Applico l'algoritmo DBSCAN...")
         EPS = read.read_int("Inserisci EPS (Es.10):")
         MIN_SAMPLES = read.read_int("Inserisci MIN_SAMPLES (Es.20):")
 
@@ -154,9 +151,8 @@ def main():
             x = item[1]
             F[x,y] = labels[i]
             i += 1
-        print(F)
+        print(f'Matrice F con gli indici del cluter\n {F}')
         # Plot di F
-        plt.imshow(F, cmap="gray")
-        plt.show()
+        plt_img_block(F, "Matrice F")
         
 main()
