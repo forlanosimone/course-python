@@ -6,10 +6,13 @@ immagini o input in base alla funzione scelta.
 import sys
 import cv2 as cv
 
-# @param str_x stringa da far visualizzare all'utente
-# @return res ritorna un intero
 def read_int(str_x):
-    "Questa funzione permette di prendere in input un numero intero, in caso di valore errato ci sarà un'eccezione."
+    '''
+    Questa funzione permette di prendere in input un numero intero, in caso di valore errato ci sarà un'eccezione.
+    @param str_x: stringa da far visualizzare all'utente
+    @return res: ritorna un intero
+    '''
+
     letto = False # Condizione
     while not letto:
         # Gestione dell'errore
@@ -24,10 +27,14 @@ def read_int(str_x):
             print("Bisonga inserire un numero interno...")
     return res
 
-# @param PATH_FILE posizione del file
-# @return name_splitted ritorna una lista con i nomi dei file
+
 def read_txt(PATH_FILE):
-    "Questa funzione permette di leggere un file e ritornare una lista con i nomi dei file all'interno del file txt."
+    '''
+    Questa funzione permette di leggere un file e ritornare una lista con 
+    i nomi dei file all'interno del file txt.
+    @param PATH_FILE: posizione del file
+    @return name_splitted: ritorna una lista con i nomi dei file
+    '''
     # Gestione dell'errore
     try:
         file = open(PATH_FILE, "r") # Apro il file in modalità di lettura
@@ -44,11 +51,15 @@ def read_txt(PATH_FILE):
 
     return name_splitted
 
-# @param PATH_IMG posizione del file
-# @param nome nome del file con estensione
-# @return img ritorna un array di due dimensioni
+
 def read_img(PATH_IMG, nome):
-    "Questa funzione permette di aprire un'immagine... "
+    '''
+    Questa funzione permette di aprire un'immagine con OpenCV e 
+    solleva un'eccezione di tipo ValueError in caso di file mancante.
+    @param PATH_IMG: posizione del file
+    @param nome: nome del file con estensione
+    @return img: ritorna un array di due dimensioni
+    '''
     # Operazione di lettura e conversione immagine in scala di grigi
     img = cv.imread(f'{PATH_IMG}{nome}', cv.IMREAD_GRAYSCALE)
 

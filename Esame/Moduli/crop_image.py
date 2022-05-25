@@ -6,10 +6,12 @@ andando a definire le coordinate del punto Top-Left e le coordinate del punto Bo
 import cv2 as cv
 from moduli.read import read_int
 
-# @param img array di due dimensioni
-# @return roi_img ritorna un array di due dimensioni più piccolo di img
 def roi(img):
-    "Questa funzione definisce una regione di interesse nell'immagine."
+    '''
+    Questa funzione definisce una regione di interesse nell'immagine.
+    @param img: array di due dimensioni
+    @return roi_img: ritorna un array di due dimensioni più piccolo di img
+    '''
     print("Inserisci le coordinate del punto Top Left e del punto Bottom Right per la creazione del bounding box.")
 
     r,c = img.shape # Ritorna il numero delle righe e delle colonne dell'array di partenza

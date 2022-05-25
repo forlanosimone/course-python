@@ -1,5 +1,11 @@
 ##
-# Questo codice premette di...
+'''
+Questo codice per ogni immagine con nome all'intenro del file image.txt premette
+di identificare una regione di interesse (RoI), applicare una soglia adattiva sulle 
+immagini con i grilli, realizzare la matrice delle coordinate dei pixel dei grilli
+e infine applicare un algoritmo che clusterizza i campioni vicini tra loro e 
+individuare eventuali punti di rumore.
+ '''
 # URL Adaptive Thresholding: https://docs.opencv.org/4.x/d7/d4d/tutorial_py_thresholding.html
 # URL DBSCAN: https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN
 
@@ -9,7 +15,6 @@ import cv2 as cv
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import DBSCAN
-from moduli.read import read_int
 
 from moduli import read, crop_image
 from moduli.plt import plt_img
@@ -34,6 +39,7 @@ def main():
         plt_img(img, "Immagine Originale", False)
 
         # Estrazione ROI (Region Of Interest) con la funzione roi
+        print("Con il cursore sull'immaigne scegliere i valori da inserire...")
         roi_img = crop_image.roi(img)
 
         # Plot ROI utilizzando la funzione plt_img
@@ -123,9 +129,10 @@ def main():
         EPS -> distanza all'interno della quale ricercare i punti vicini
         MIN_SAMPLES -> numero minimo di punti affinché si formi un cluster
         '''
+        
         # Leggo i valori di EPS e MIN_SAMPLES con la funzione read_int
-        EPS = read_int("Inserisci EPS (Es.10):")
-        MIN_SAMPLES = read_int("Inserisci MIN_SAMPLES (Es.20):")
+        EPS = read.read_int("Inserisci EPS (Es.10):")
+        MIN_SAMPLES = read.read_int("Inserisci MIN_SAMPLES (Es.20):")
 
         db = DBSCAN(EPS, min_samples = MIN_SAMPLES).fit(P)
         labels = db.labels_ # Indici o identificatori presi dal cluster
